@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Banco\Modelo;
 
-use Banco\Modelo\Conta\Conta;
-use Banco\Modelo\Conta\Titular;
+require_once '../autoload.php';
+
+use Banco\Modelo\Conta;
 use Banco\Modelo\CPF;
 use Banco\Modelo\Endereco;
-
-require_once 'autoload.php';
 
 $primeiraConta = new Conta(new Titular(new CPF('123.456.789-10'), 'Maria', new Endereco('São Paulo', 'Sé', 'Rua tal', '132A'  )));
 $primeiraConta->deposita(500);

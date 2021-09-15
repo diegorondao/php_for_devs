@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-class Conta
+namespace Banco\Modelo\Conta;
+
+abstract class Conta
 {
     private Titular $titular;
 
@@ -32,52 +34,46 @@ class Conta
 
     public function saca(float $valorASacar): void
     {
-        if ($valorASacar > $this->saldo) {
+        $tarifaSaque = $valorASacar * $this->percentualTarifa();
+        $valorSaque = $valorASacar + $tarifaSaque;
+        if ($valorSaque > $this->saldo) {
             echo "Saldo indisponível";
             return;
         }
 
-        $this->saldo -= $valorASacar;
+        $this->saldo -= $valorSaque;
     }
-
+    
     public function deposita(float $valorADepositar): void
     {
         if ($valorADepositar < 0) {
             echo "Valor precisa ser positivo";
             return;
         }
-
+        
         $this->saldo += $valorADepositar;
     }
-
-    public function transferi(float $valorATransferir, Conta $contaDestino): void
-    {
-        if ($valorATransferir > $this->saldo) {
-            echo "Saldo indisponível";
-            return;
-        }
-
-        $this->sacar($valorATransferir);
-        $contaDestino->depositar($valorATransferir);
-    }
+    
     public function recuperaCpfTitular(): string
     {
         return $this->titular->recuperaCpf();
     }
-
+    
     public function recuperaNomeTitular(): string
     {
         return $this->titular->recuperaNome();
     }
-
+    
     public function recuperaSaldo(): float
     {
-
+        
         return $this->saldo;
     }
-
+    
     public static function recuperaNumeroDeContas(): int
     {
         return self::$numeroDeContas;
     }
+
+    abstract protected function percentualTarifa(): float;
 }

@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-class CPF
+namespace Banco\Modelo;
+
+final class CPF
 {
     private string $numero;
 
